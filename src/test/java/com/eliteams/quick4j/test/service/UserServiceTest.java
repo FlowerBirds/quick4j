@@ -1,11 +1,11 @@
 package com.eliteams.quick4j.test.service;
 
 import java.util.Date;
+
 import javax.annotation.Resource;
 
-import com.eliteams.quick4j.core.util.ApplicationUtils;
-import org.junit.Test;
 import com.eliteams.quick4j.core.feature.test.TestSupport;
+import com.eliteams.quick4j.core.util.ApplicationUtils;
 import com.eliteams.quick4j.web.model.User;
 import com.eliteams.quick4j.web.service.UserService;
 

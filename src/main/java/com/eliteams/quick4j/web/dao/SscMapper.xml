@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eliteams.quick4j.web.dao.SscMapper">
+    <resultMap id="s" type="com.eliteams.quick4j.web.model.User">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="CHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    
+    <insert id="insert" parameterType="com.eliteams.quick4j.web.model.SscResult">  
+	    insert into t_ssc_record (code,expect,opencode,opentime,opentimestamp,date)   
+	    values  
+	    <foreach collection="data" item="item" index="index" separator="," >  
+	        (#{item.code},#{item.expect},#{item.opencode},#{item.opentime},#{item.opentimestamp},#{item.date})  
+	    </foreach>  
+	</insert>
+	
+	<select id="selectSsc" parameterType="com.eliteams.quick4j.web.model.SscEntity" 
+			resultType="com.eliteams.quick4j.web.model.SscEntity">
+		select code,expect,opencode,opentime,opentimestamp,date
+		from t_ssc_record
+		<where>
+			code = #{code} and date = #{date}
+		</where>
+		order by opentimestamp desc
+	</select>  
+    
+    <insert id="insertList" parameterType="com.eliteams.quick4j.web.model.SscEntity">
+	    insert into t_ssc_record (code,expect,opencode,opentime,opentimestamp,date)   
+	    values  
+	    <foreach collection="list" item="item" index="index" separator="," >  
+	        (#{item.code},#{item.expect},#{item.opencode},#{item.opentime},#{item.opentimestamp},#{item.date})  
+	    </foreach> 
+	</insert>
+	
+	<select id="selectCurrent" parameterType="map" resultType="com.eliteams.quick4j.web.model.SscEntity">
+		select code,expect,opencode,opentime,opentimestamp,date
+		from t_ssc_record
+		<where>
+			and date = #{currentDate}
+			and code in 
+			<foreach collection="types" item="item" index="index" separator="," >#{item}</foreach>
+		</where>
+		order by code, opentimestamp desc
+	</select> 
+</mapper>

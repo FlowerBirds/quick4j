@@ -302,7 +302,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
         <!-- BEGIN FOOTER -->
         <div class="footer">
             <div class="footer-inner">
-                2014 &copy; Quick4j By Eliteams.
+                2017 &copy; Quick4j.
             </div>
             <div class="footer-tools">
                 <span class="go-top"><i class="fa fa-angle-up"></i></span>

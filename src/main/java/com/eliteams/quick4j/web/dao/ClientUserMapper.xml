@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eliteams.quick4j.web.dao.ClientUserMapper">
+    <resultMap id="s" type="com.eliteams.quick4j.web.model.User">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="CHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    
+    <insert id="insertSelective" parameterType="com.eliteams.quick4j.web.model.ClientUser" >
+    	
+    </insert>
+    
+    <select id="loginUser" parameterType="com.eliteams.quick4j.web.model.ClientUser"
+    	resultType="com.eliteams.quick4j.web.model.ClientUser">
+    	select * 
+    	from client_user
+    	where username = #{username} 
+    		and password = #{password}
+    		and status = 'on'
+    </select>
+</mapper>

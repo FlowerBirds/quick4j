@@ -9,3 +9,5 @@
 
 .idea
 quick4j.iml
+
+/src/main/resources/application.properties

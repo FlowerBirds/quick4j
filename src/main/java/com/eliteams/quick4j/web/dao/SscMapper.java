@@ -23,4 +23,11 @@ public interface SscMapper extends GenericDao<SscResult, Long>{
 	int insertList(List<SscEntity> results);
 	
 	List<SscEntity> selectSsc(SscEntity param);
+	
+	/**
+	 * @param code
+	 * @param dates
+	 * @return
+	 */
+	List<SscEntity> selectDays(String code, List<String> dates);
 }

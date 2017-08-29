@@ -41,9 +41,20 @@
 		from t_ssc_record
 		<where>
 			and date = #{currentDate}
-			and code in 
+			and code in (
 			<foreach collection="types" item="item" index="index" separator="," >#{item}</foreach>
+			)
 		</where>
 		order by code, opentimestamp desc
 	</select> 
+	
+	<select id="selectDays" resultType="com.eliteams.quick4j.web.model.SscEntity">
+		select code,expect,opencode,opentime,opentimestamp,date
+		from t_ssc_record
+		where code = #{param1} 
+		and date in 
+		(
+		<foreach collection="param2" item="item" index="index" separator="," >#{item}</foreach>
+		)
+	</select>
 </mapper>

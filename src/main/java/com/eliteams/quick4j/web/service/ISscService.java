@@ -19,4 +19,19 @@ public interface ISscService {
 	public int updateDaily();
 	
 	public List<SscEntity> selectCurrentDay(String code, String date);
+
+	/**
+	 * @param code
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<SscEntity> selectManyDays(String code, String startDate, String endDate);
+
+	/**
+	 * @param code
+	 * @param days
+	 * @return
+	 */
+	public List<SscEntity> selectManyDays(String code, String days);
 }

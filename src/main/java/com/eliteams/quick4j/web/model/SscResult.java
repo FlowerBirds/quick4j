@@ -37,6 +37,10 @@ public class SscResult {
 	
 	
 	private String errcode;
+	/**
+	 * 服务器时间
+	 */
+	private String time;
 	
 	/**
 	 * @return the code
@@ -111,5 +115,19 @@ public class SscResult {
 	 */
 	public void setErrcode(String errcode) {
 		this.errcode = errcode;
+	}
+
+	/**
+	 * @return the time
+	 */
+	public String getTime() {
+		return time;
+	}
+
+	/**
+	 * @param time the time to set
+	 */
+	public void setTime(String time) {
+		this.time = time;
 	}
 }

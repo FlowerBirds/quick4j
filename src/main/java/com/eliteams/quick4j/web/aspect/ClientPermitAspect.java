@@ -58,7 +58,7 @@ public class ClientPermitAspect {
 	@Around("@annotation(com.eliteams.quick4j.web.anotation.ClientPermission)")
 	public Object check(ProceedingJoinPoint jp) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        
+		String method = jp.getSignature().getName();
 		ClientUser user = getUser(request.getCookies());
 		Map<String, Object> reterr = new HashMap<>();
 		Object ret = null;

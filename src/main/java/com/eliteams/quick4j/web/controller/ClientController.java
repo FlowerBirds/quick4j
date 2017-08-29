@@ -6,6 +6,9 @@
  */
 package com.eliteams.quick4j.web.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +45,8 @@ import com.eliteams.quick4j.web.util.MD5Util;
 @RequestMapping("/api")
 public class ClientController {
 
+	private ThreadLocal<DateTimeFormatter> formatter = new ThreadLocal<>();
+	
 	@Autowired
 	private IClientUserService clientUserService;
 	
@@ -63,7 +68,7 @@ public class ClientController {
 			param.put("result", "success");
 			param.put("lastVisit", user.getLastVisit().toString());
 			CookieUtils.addCookie(response, "token", user.getToken(), "/", 60 * 60);
-			CookieUtils.addCookie(response, "username", user.getUsername(), "/", 60);
+			CookieUtils.addCookie(response, "username", user.getUsername(), "/", 60 * 60);
 			CookieUtils.addCookie(response, "jsessionid", ApplicationUtils.randomUUID(), "/", 60 * 60);
 		}
 		
@@ -85,6 +90,13 @@ public class ClientController {
 			String code = (String) ocode;
 			int num = (int) param.getOrDefault("rows", 5);
 			List<SscEntity> rows = TodaySscCache.getLatest(code, num);
+			DateTimeFormatter format = formatter.get();
+			if(format == null) {
+				format = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+				formatter.set(format);
+			}
+			LocalDateTime now = LocalDateTime.now();
+			page.setTime(now.format(format));
 			page.setCode(code);
 			page.setRows(rows.size());
 			page.setData(rows);
@@ -120,8 +132,18 @@ public class ClientController {
 	public Object getDailyDate(@RequestParam Map<String, Object> param) {
 		String code = (String) param.getOrDefault("code", "undifined");
 		String date = (String) param.getOrDefault("date", "");
+		String startDate = (String) param.getOrDefault("startDate", "");
+		String endDate = (String) param.getOrDefault("endDate", "");
+		String days = (String) param.getOrDefault("days", "");
 		date = date.replaceAll("-", "");
-		List<SscEntity> rows = sscService.selectCurrentDay(code, date);
+		List<SscEntity> rows = Collections.emptyList();
+		if("".equals(date) && !"".equals(startDate) && !"".equals(endDate)) {
+			rows = sscService.selectManyDays(code, startDate, endDate);
+		} else if(!"".equals(date)){
+			rows = sscService.selectCurrentDay(code, date);
+		} else if(!"".equals(days)) {
+			rows = sscService.selectManyDays(code, days);
+		}
 		SscResult page = new SscResult();
 		page.setCode(code);
 		page.setRows(rows.size());
